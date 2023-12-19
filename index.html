@@ -4,8 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rubix Cube Solver</title>
+    <link rel="stylesheet" href="./style.css">
+    <script src="./script.js"></script>
 </head>
-<body>
-        
+<body onload="getBlocks()">
+    <div class="cubeContainer">
+        <div class="rowContainer flexItems">
+            <div id="block1" class="cubeBlock flexItems"></div>
+            <div id="block2" class="cubeBlock flexItems"></div>
+            <div id="block3" class="cubeBlock flexItems"></div>
+        </div>
+        <div class="rowContainer flexItems">
+            <div id="block4" class="cubeBlock flexItems"></div>
+            <div id="block5" class="cubeBlock flexItems"></div>
+            <div id="block6" class="cubeBlock flexItems"></div>
+        </div>
+        <div class="rowContainer flexItems">
+            <div id="block7" class="cubeBlock flexItems"></div>
+            <div id="block8" class="cubeBlock flexItems"></div>
+            <div id="block9" class="cubeBlock flexItems"></div>    
+        </div>
+    </div>
+    <div class="colorSelector">
+        <div id="color1" class="color flexItems"></div>
+        <div id="color2" class="color flexItems"></div>
+        <div id="color3" class="color flexItems"></div>
+        <div id="color4" class="color flexItems"></div>
+    </div>
 </body>
 </html>
