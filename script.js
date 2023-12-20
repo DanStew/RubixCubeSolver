@@ -8,11 +8,20 @@ function getBlocks(){
 
 function selectBlock(e){
     try{
-        currentSelected.style.border = "5px solid black"
+        if (currentSelected == e.target){
+            currentSelected.style.border="5px solid black"
+            currentSelected = "none"
+        }
+        else{
+            if (currentSelected != "none"){
+                currentSelected.style.border = "5px solid black"
+            }
+            e.target.style.border = "5px solid white"
+            currentSelected = e.target
+        }
     }
     catch{
         console.log("CurrentSelected doesn't exist")
+        currentSelected = "none"
     }
-    e.target.style.border = "5px solid white"
-    currentSelected = e.target
 }
