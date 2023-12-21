@@ -7,7 +7,12 @@
     <link rel="stylesheet" href="./style.css">
     <script src="./script.js"></script>
 </head>
-<body onload="getBlocks()">
+<body onload="createEvents()">
+    <!-- Container to contain the different options for the user to choose how they select the colours of the cube-->
+    <div class="optionsContainer">
+
+    </div>
+    <!-- Container where the cube will be displayed, including the 9 blocks on each face -->
     <div class="cubeContainer">
         <div class="rowContainer flexItems">
             <div id="block1" class="cubeBlock flexItems"></div>
@@ -25,13 +30,14 @@
             <div id="block9" class="cubeBlock flexItems"></div>    
         </div>
     </div>
+    <!-- Container to include the 6 colors for the user to choose from to select -->
     <div class="colorSelector flexItems">
-        <div class="colorHotbar flexItems">
-            <div id="color1" class="color flexItems"></div>
-            <div id="color2" class="color flexItems"></div>
-            <div id="color3" class="color flexItems"></div>
-            <div id="color4" class="color flexItems"></div>
-        </div>
+        <div id="color1" class="color"></div>
+        <div id="color2" class="color"></div>
+        <div id="color3" class="color"></div>
+        <div id="color4" class="color"></div>
+        <div id="color5" class="color"></div>
+        <div id="color6" class="color"></div>
     </div>
 </body>
 </html>
