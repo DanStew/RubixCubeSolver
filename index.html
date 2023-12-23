@@ -5,12 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rubix Cube Solver</title>
     <link rel="stylesheet" href="./style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <script src="./script.js"></script>
 </head>
 <body onload="createEvents()">
-    <!-- Container to contain the different options for the user to choose how they select the colours of the cube-->
-    <div class="optionsContainer">
-
+    <div class="header">
+        <!-- Title and Instructions on how to use the website -->
+        <div class="headerInfo flexItems">
+            <h1>Rubix Cube Solver</h1>
+            <p>Start by inputting your current Rubix Cube onto the website, using Block to Color or Color to Block. Then, use the controls to control and solve the Rubix Cube </p>
+            <p>Click on the info button to understand what each option does</p>
+        </div>
+        <!-- Container to contain the different options for the user to choose how they select the colours of the cube-->
+        <div class="optionsContainer flexItems">
+            <!-- Making a button for each option  button that the user can choose from -->
+            <button>Block to Color</button>
+            <button>Color to Block</button>
+            <button>Reset</button>
+            <button id="hideCol" onclick="hideColours()">Hide Colors</button>
+            <button id="showCol" class="hide" onclick="showColours()">Show Colors</button>
+            <button id="hideCon" onclick="hideControls()">Hide Controls </button>
+            <button id="showCon" class="hide" onclick="showControls()">Show Controls</button>
+            <button>Info</button>
+        </div>
     </div>
     <!-- Container where the cube will be displayed, including the 9 blocks on each face -->
     <div class="cubeContainer">
@@ -31,13 +49,14 @@
         </div>
     </div>
     <!-- Container to include the 6 colors for the user to choose from to select -->
-    <div class="colorSelector flexItems">
-        <div id="color1" class="color"></div>
-        <div id="color2" class="color"></div>
-        <div id="color3" class="color"></div>
-        <div id="color4" class="color"></div>
-        <div id="color5" class="color"></div>
-        <div id="color6" class="color"></div>
+    <!-- The col class here is used to group all these elements (in a class that has no other effect) -->
+    <div id="colorSelector" class="flexItems col">
+        <div id="color1" class="color col"></div>
+        <div id="color2" class="color col"></div>
+        <div id="color3" class="color col"></div>
+        <div id="color4" class="color col"></div>
+        <div id="color5" class="color col"></div>
+        <div id="color6" class="color col"></div>
     </div>
 </body>
 </html>

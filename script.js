@@ -57,3 +57,28 @@ function selectColor(e){
         currentSelected = "none"
     }
 }
+
+/* Function called when the user selects the buttons at the top of the page
+/* Function to hide the colours from the page */
+function hideColours(){
+    hideCol = document.getElementById("hideCol")
+    showCol = document.getElementById("showCol")
+    colors = document.getElementsByClassName("col")
+    hideCol.classList.add("hide")
+    showCol.classList.remove("hide")
+    for (let i=0; i<=6; i++){
+        colors[i].classList.add("hide")
+    }
+}
+
+/* Function to show the colours from the page */
+function showColours(){
+    hideCol = document.getElementById("hideCol")
+    showCol = document.getElementById("showCol")
+    colors = document.getElementsByClassName("col")
+    hideCol.classList.remove("hide")
+    showCol.classList.add("hide")
+    for (let i=0; i<=6; i++){
+        colors[i].classList.remove("hide")
+    }
+}
