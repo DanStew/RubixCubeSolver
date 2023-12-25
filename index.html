@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <script src="./script.js"></script>
 </head>
-<body onload="createEvents()">
+<body onload="setup()">
     <div class="header">
         <!-- Title and Instructions on how to use the website -->
         <div class="headerInfo flexItems">
@@ -27,8 +27,18 @@
             <button id="showCol" class="hide" onclick="showColours()">Show Colors</button>
             <button id="hideCon" onclick="hideControls()">Hide Controls </button>
             <button id="showCon" class="hide" onclick="showControls()">Show Controls</button>
-            <button>Info</button>
+            <button id="showInfo" onclick="showInfo()">Show Info</button>
+            <button id="hideInfo" class="hide" onclick="hideInfo()">Hide Info</button>
         </div>
+    </div>
+    <!-- Location to display all of the info for the buttons, if wanted -->
+    <div id="infoContainer" class="flexItems hide">
+        <p>Block to Color - Choose each block and then choose the color you want to change that block to</p>
+        <p>Color to Block - Choose a color and then select the blocks you want to change to that color</p>
+        <p>Reset - Reset your cube to a completed rubix cube</p>
+        <p>Hide/Show Colors - Control whether colors are displayed on the screen</p>
+        <p>Hide/Show Controls - Control whether the cube controls are shown on screen</p>
+        <p>Info - Control whether button info is shown or not</p>
     </div>
     <!-- Container where the cube will be displayed, including the 9 blocks on each face -->
     <div class="cubeContainer">
