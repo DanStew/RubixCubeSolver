@@ -20,8 +20,8 @@
         <!-- Container to contain the different options for the user to choose how they select the colours of the cube-->
         <div class="optionsContainer flexItems">
             <!-- Making a button for each option  button that the user can choose from -->
-            <button>Block to Color</button>
-            <button>Color to Block</button>
+            <button onclick="colorToBlock()">Color to Block</button>
+            <button onclick="blockToColor()">Block to Color</button>
             <button>Reset</button>
             <button id="hideCol" onclick="hideColours()">Hide Colors</button>
             <button id="showCol" class="hide" onclick="showColours()">Show Colors</button>
@@ -33,8 +33,8 @@
     </div>
     <!-- Location to display all of the info for the buttons, if wanted -->
     <div id="infoContainer" class="flexItems hide">
-        <p>Block to Color - Choose each block and then choose the color you want to change that block to</p>
         <p>Color to Block - Choose a color and then select the blocks you want to change to that color</p>
+        <p>Block to Color - Choose each block and then choose the color you want to change that block to</p>
         <p>Reset - Reset your cube to a completed rubix cube</p>
         <p>Hide/Show Colors - Control whether colors are displayed on the screen</p>
         <p>Hide/Show Controls - Control whether the cube controls are shown on screen</p>
@@ -42,6 +42,7 @@
     </div>
     <!-- Container where the cube will be displayed, including the 9 blocks on each face -->
     <div class="cubeContainer">
+        <div id="currentMode"></div>
         <div class="rowContainer flexItems">
             <div id="block1" class="cubeBlock flexItems"></div>
             <div id="block2" class="cubeBlock flexItems"></div>

@@ -4,6 +4,24 @@ function setup(){
     setupCube()
     //Calling the function to create the events for the website
     createEvents()
+    //Calling the function to set up the current mode on the website
+    currentModeSetup()
+    //Setting default values for items from local storage
+    localStorage.setItem("currentSelectedBlock","none")
+    localStorage.setItem("currentSelectedColor","none")
+}
+
+//Function to setup the current mode for the website
+function currentModeSetup(){
+    //Setting the default cube change mode and displaying it to the screen
+    currentMode =localStorage.getItem("currentMode")
+    currentModeDiv = document.getElementById("currentMode")
+    //Setting a default value for the currentMode if user hasn't entered site before
+    if (currentMode == null){
+        localStorage.setItem("currentMode","Color To Block")
+        currentMode = "Color To Block"
+    }
+    currentModeDiv.innerHTML = "Current Mode : " + currentMode
 }
 
 //Function to setup the colour of the blocks on the cube
@@ -66,42 +84,53 @@ function createEvents(){
 // Function used to select the block of the cube 
 function selectBlock(e){
     try{
-        if (currentSelected == e.target){
-            currentSelected.style.border="5px solid black"
-            currentSelected = "none"
+        if (currentSelectedBlock == e.target){
+            currentSelectedBlock.style.border="5px solid black"
+            currentSelectedBlock = "none"
+            localStorage.setItem("currentSelectedBlock","none")
         }
         else{
-            if (currentSelected != "none"){
-                currentSelected.style.border = "5px solid black"
+            if (currentSelectedBlock != "none"){
+                currentSelectedBlock.style.border = "5px solid black"
             }
             e.target.style.border = "5px solid white"
-            currentSelected = e.target
+            currentSelectedBlock = e.target
+            localStorage.setItem("currentSelectedBlock",currentSelectedBlock.id)
         }
     }
     catch{
-        console.log("CurrentSelected doesn't exist")
-        currentSelected = "none"
+        currentSelectedBlock = "none"
+    }
+    
+    //Changing the color of blocks if appropriate and correct mode
+    currentMode = localStorage.getItem("currentMode")
+    currentSelectedColor = localStorage.getItem("currentSelectedColor")
+    if (currentMode == "Color To Block" && currentSelectedColor != "none" && currentSelectedBlock != "none"){
+        //Retrieving the actual color that the id we currently has refers to
+        color = getColor(currentSelectedColor)
+        currentSelectedBlock.style.background = color
     }
 }
 
 // Function used to select the block of the cube 
 function selectColor(e){
     try{
-        if (currentSelected == e.target){
-            currentSelected.style.border="4px solid black"
-            currentSelected = "none"
+        if (currentSelectedColor == e.target){
+            currentSelectedColor.style.border="4px solid black"
+            currentSelectedColor = "none"
+            localStorage.setItem("currentSelectedColor","none")
         }
         else{
-            if (currentSelected != "none"){
-                currentSelected.style.border = "4px solid black"
+            if (currentSelectedColor != "none"){
+                currentSelectedColor.style.border = "4px solid black"
             }
             e.target.style.border = "4px solid white"
-            currentSelected = e.target
+            currentSelectedColor = e.target
+            localStorage.setItem("currentSelectedColor",currentSelectedColor.id)
         }
     }
     catch{
-        console.log("CurrentSelected doesn't exist")
-        currentSelected = "none"
+        currentSelectedColor = "none"
     }
 }
 
@@ -130,6 +159,31 @@ function showColours(){
     }
 }
 
+//Function which translates a color id into the actual color that it refers to
+function getColor(colorId){
+    if (colorId == "color1"){
+        return "red"
+    }
+    else if (colorId == "color2"){
+        return "orange"
+    }
+    else if (colorId == "color3"){
+        return "blue"
+    }
+    else if (colorId == "color4"){
+        return "green"
+    }
+    else if (colorId == "color5"){
+        return "white"
+    }
+    else if (colorId == "color6"){
+        return "yellow"
+    }
+    else{
+        return "Error Occured"
+    }
+}
+
 //Function to show the info on the screen
 function showInfo(){
     showInf = document.getElementById("showInfo")
@@ -148,4 +202,17 @@ function hideInfo(){
     showInf.classList.remove("hide")
     hideInf.classList.add("hide")
     info.classList.add("hide")
+}
+
+//Functions to change the currentMode of the website
+function colorToBlock(){
+    localStorage.setItem("currentMode","Color To Block")
+    currentModeDiv = document.getElementById("currentMode")
+    currentModeDiv.innerHTML = "Current Mode : Color To Block"
+}
+
+function blockToColor(){
+    localStorage.setItem("currentMode","Block To Color")
+    currentModeDiv = document.getElementById("currentMode")
+    currentModeDiv.innerHTML = "Current Mode : Block To Color"
 }
