@@ -47,7 +47,8 @@ function setupCube(){
                 }
             }
         }
-        localStorage.getItem("blockColours",true)
+        //Setting it in local storage that the initial cube has been set up
+        localStorage.setItem("blockColours",true)
     }
     //Setting the colours of the cube to the colours in the array
     blockNmb = 0
@@ -108,7 +109,11 @@ function selectBlock(e){
     if (currentMode == "Color To Block" && currentSelectedColor != "none" && currentSelectedBlock != "none"){
         //Retrieving the actual color that the id we currently has refers to
         color = getColor(currentSelectedColor)
+        faceNmb = localStorage.getItem("faceNmb") //Collecting the current faceNmb from local storage
+        blockNmb = currentSelectedBlock.id.substring(5) //Using the current selected block id to find the block number that it is
         currentSelectedBlock.style.background = color
+        //Setting the color to connect to the block in local storage, so the system saves
+        localStorage.setItem("face"+faceNmb+"blockNmb"+blockNmb,color) 
     }
 }
 
@@ -131,6 +136,19 @@ function selectColor(e){
     }
     catch{
         currentSelectedColor = "none"
+    }
+    //Changing the color of blocks if appropriate and correct mode
+    currentMode = localStorage.getItem("currentMode")
+    currentSelectedBlockId = localStorage.getItem("currentSelectedBlock")
+    currentSelectedBlock = document.getElementById(currentSelectedBlockId)
+    if (currentMode == "Block To Color" && currentSelectedBlock != "none" && currentSelectedColor != "none"){
+        //Retrieving the actual color that the id we currently has refers to
+        color = getColor(currentSelectedColor.id)
+        faceNmb = localStorage.getItem("faceNmb") //Collecting the current faceNmb from local storage
+        blockNmb = currentSelectedBlock.id.substring(5) //Using the current selected block id to find the block number that it is
+        currentSelectedBlock.style.background = color
+        //Setting the color to connect to the block in local storage, so the system saves
+        localStorage.setItem("face"+faceNmb+"blockNmb"+blockNmb,color) 
     }
 }
 
