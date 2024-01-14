@@ -9,6 +9,8 @@ function setup(){
     //Setting default values for items from local storage
     localStorage.setItem("currentSelectedBlock","none")
     localStorage.setItem("currentSelectedColor","none")
+    //Setting up the default values for the faceNmb variable
+    faceNmbSetup()
 }
 
 //Function to setup the current mode for the website
@@ -24,6 +26,18 @@ function currentModeSetup(){
     currentModeDiv.innerHTML = "Current Mode : " + currentMode
 }
 
+//Function to setup the default values for the faceNmb variable
+function faceNmbSetup(){
+    //This function sets a default value for the current faceNmb the user is on
+    localStorage.setItem("currentFaceNmb",1)
+    //It will also include what value the faceNmb will be when the user changes cube face
+    //The values of these variables will be changed and used in the changeFace(e) function
+    localStorage.setItem("faceNmbLeft",4)
+    localStorage.setItem("faceNmbRight",2)
+    localStorage.setItem("faceNmbUp",5)
+    localStorage.setItem("faceNmbDown",6)
+}
+
 //Function to setup the colour of the blocks on the cube
 function setupCube(){
     //Setting up the initial colours of the cube, if the user hasn't used the website before
@@ -34,8 +48,6 @@ function setupCube(){
         blockNmb=0
         //FaceNmb is used so that it can loop through all of the faces of the cube
         faceNmb=0
-        //Setting a default value for the faceNmb (to be used later)
-        localStorage.setItem("faceNmb",1)
         for (let i=0;i<=5;i++){
             //Incrementing the faceNmb and reseting the blockNmb for each face
             faceNmb++
@@ -53,7 +65,7 @@ function setupCube(){
     //Setting the colours of the cube to the colours in the array
     blockNmb = 0
     //Getting the value of the faceNmb from local storage
-    faceNmb = localStorage.getItem("faceNmb")
+    faceNmb = localStorage.getItem("currentFaceNmb")
     for (let j=0;j<=2;j++){
         for(let k=0;k<=2;k++){
             blockNmb++
@@ -75,10 +87,16 @@ function createEvents(){
     }
     // Creating the click event for the colors 
     // Code implemented the same way the block code has been
-    colors = new Array(9)
+    colors = new Array(6)
     for (let i=1; i<=6; i++){
         colors[i-1] = document.getElementById("color"+i)
         colors[i-1].addEventListener("click",(e) => selectColor(e))
+    }
+    // Creating the click events for the controls of the website
+    controls = new Array(4)
+    for (let i=1; i<=4; i++){
+        controls[i-1] = document.getElementById("cubeControl"+i)
+        controls[i-1].addEventListener("click",(e) => changeFace(e))
     }
 }
 
@@ -109,7 +127,7 @@ function selectBlock(e){
     if (currentMode == "Color To Block" && currentSelectedColor != "none" && currentSelectedBlock != "none"){
         //Retrieving the actual color that the id we currently has refers to
         color = getColor(currentSelectedColor)
-        faceNmb = localStorage.getItem("faceNmb") //Collecting the current faceNmb from local storage
+        faceNmb = localStorage.getItem("currentFaceNmb") //Collecting the current faceNmb from local storage
         blockNmb = currentSelectedBlock.id.substring(5) //Using the current selected block id to find the block number that it is
         currentSelectedBlock.style.background = color
         //Setting the color to connect to the block in local storage, so the system saves
@@ -144,11 +162,102 @@ function selectColor(e){
     if (currentMode == "Block To Color" && currentSelectedBlock != "none" && currentSelectedColor != "none"){
         //Retrieving the actual color that the id we currently has refers to
         color = getColor(currentSelectedColor.id)
-        faceNmb = localStorage.getItem("faceNmb") //Collecting the current faceNmb from local storage
+        faceNmb = localStorage.getItem("currentFaceNmb") //Collecting the current faceNmb from local storage
         blockNmb = currentSelectedBlock.id.substring(5) //Using the current selected block id to find the block number that it is
         currentSelectedBlock.style.background = color
         //Setting the color to connect to the block in local storage, so the system saves
         localStorage.setItem("face"+faceNmb+"blockNmb"+blockNmb,color) 
+    }
+}
+
+//Function called to change the currently viewed face that the user is on
+function changeFace(e){
+    //This piece of code uses the id of the element that has been selected to uniquely define what button it is
+    controlNmb = e.target.id.substring(11)
+    //Changing the face number of the cube depending on what button the user has pressed
+    if (controlNmb == 1){
+        //Getting the value of the faceNmb when the user presses left
+        faceNmbLeft = localStorage.getItem("faceNmbLeft")
+        //Changing the value of the current faceNmb in local storage
+        localStorage.setItem("currentFaceNmb",faceNmbLeft)
+        //Updating the surrounding faceNmbs, so the left and right now point to the correct face
+        updateFaceNmbsLeftRight(faceNmbLeft)
+    }
+    else if (controlNmb == 2){
+        //Getting the value of the faceNmb when the user presses the UP button
+        faceNmbUp = localStorage.getItem("faceNmbUp")
+        //Changing the value of the current faceNmb in local storage
+        localStorage.setItem("currentFaceNmb",faceNmbUp)
+        //Updating the surrounding faceNmb variables in local storage
+        updateFaceNmbsUpDown(faceNmbUp)
+    }
+    else if (controlNmb == 3){
+        //Getting the value of the faceNmb when the user presses the DOWN button
+        faceNmbDown = localStorage.getItem("faceNmbDown")
+        //Changing the value of the current faceNmb in local storage
+        localStorage.setItem("currentFaceNmb",faceNmbDown)
+        //Updating the surrounding faceNmb variables in local storage
+        updateFaceNmbsUpDown(faceNmbDown)
+    }
+    else if (controlNmb == 4){
+        //Getting the value of the faceNmb when the user presses right
+        faceNmbRight = localStorage.getItem("faceNmbRight")
+        //Changing the value of the current faceNmb in local storage
+        localStorage.setItem("currentFaceNmb",faceNmbRight)
+        //Updating the surrounding faceNmbs, so the left and right now point to the correct face
+        updateFaceNmbsLeftRight(faceNmbRight)
+    }
+    //Calling the function to display the new face onto the website
+    displayCubeFace()
+}
+
+//Updating the faceNmb and surrounding variables if the user selects to go Left or Right
+function updateFaceNmbsLeftRight(faceNmb){
+    //Updating the surrounding faceNmbs, so the left and right now point to the correct face
+    if (faceNmb == 2 || faceNmb == 3){
+        localStorage.setItem("faceNmbLeft",faceNmb-1)
+        localStorage.setItem("faceNmbRight",faceNmb+1)
+    }
+    else if (faceNmb == 1){
+        localStorage.setItem("faceNmbLeft",4)
+        localStorage.setItem("faceNmbRight",2)
+    }
+    else if (faceNmb == 4){
+        localStorage.setItem("faceNmbLeft",3)
+        localStorage.setItem("faceNmbRight",1)
+    }
+}
+
+//Updating the faceNmb and surrounding variables if the user selects to go Up or Down
+function updateFaceNmbsUpDown(faceNmb){
+    //Updating the surrounding faceNmbs, so the up and down now point to the correct face
+    if (faceNmb == 1){
+        localStorage.setItem("faceNmbUp",5)
+        localStorage.setItem("faceNmbDown",6)
+    }
+    else if (faceNmb == 5){
+        localStorage.setItem("faceNmbUp",6)
+        localStorage.setItem("faceNmbDown",1)
+    }
+    else if (faceNmb == 6){
+        localStorage.setItem("faceNmbUp",1)
+        localStorage.setItem("faceNmbDown",5)
+    }
+}
+
+//Function to display the face of the cube that the user is currently on
+function displayCubeFace(){
+    //Setting the colours of the cube to the colours in the array
+    blockNmb = 0
+    //Getting the value of the faceNmb from local storage
+    faceNmb = localStorage.getItem("currentFaceNmb")
+    for (let j=0;j<=2;j++){
+        for(let k=0;k<=2;k++){
+            blockNmb++
+            block = document.getElementById("block"+blockNmb)
+            blockColour = localStorage.getItem("face"+faceNmb+"blockNmb"+blockNmb)
+            block.style.background = blockColour
+        }
     }
 }
 
@@ -175,6 +284,26 @@ function showColours(){
     for (let i=0; i<=6; i++){
         colors[i].classList.remove("hide")
     }
+}
+
+// Function to hide the controls from the page
+function hideControls(){
+    controls = document.getElementById("cubeControls")
+    hideCon = document.getElementById("hideCon")
+    showCon = document.getElementById("showCon")
+    hideCon.classList.add("hide")
+    controls.classList.add("hide")
+    showCon.classList.remove("hide")
+}
+
+// Function to show the controls from the page
+function showControls(){
+    controls = document.getElementById("cubeControls")
+    hideCon = document.getElementById("hideCon")
+    showCon = document.getElementById("showCon")
+    hideCon.classList.remove("hide")
+    controls.classList.remove("hide")
+    showCon.classList.add("hide")
 }
 
 //Function which translates a color id into the actual color that it refers to
