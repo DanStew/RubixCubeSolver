@@ -28,14 +28,19 @@ function currentModeSetup(){
 
 //Function to setup the default values for the faceNmb variable
 function faceNmbSetup(){
-    //This function sets a default value for the current faceNmb the user is on
-    localStorage.setItem("currentFaceNmb",1)
-    //It will also include what value the faceNmb will be when the user changes cube face
-    //The values of these variables will be changed and used in the changeFace(e) function
-    localStorage.setItem("faceNmbLeft",4)
-    localStorage.setItem("faceNmbRight",2)
-    localStorage.setItem("faceNmbUp",5)
-    localStorage.setItem("faceNmbDown",6)
+    //Checking to see whether faceNmb has already been initialised
+    faceNmb = localStorage.getItem("currentFaceNmb")
+    //Initialising the values if it hasn't been initialised
+    if (faceNmb == null){
+        //This function sets a default value for the current faceNmb the user is on
+        localStorage.setItem("currentFaceNmb",1)
+        //It will also include what value the faceNmb will be when the user changes cube face
+        //The values of these variables will be changed and used in the changeFace(e) function
+        localStorage.setItem("faceNmbLeft",4)
+        localStorage.setItem("faceNmbRight",2)
+        localStorage.setItem("faceNmbUp",5)
+        localStorage.setItem("faceNmbDown",6)
+    }
 }
 
 //Function to setup the colour of the blocks on the cube
@@ -51,29 +56,21 @@ function setupCube(){
         for (let i=0;i<=5;i++){
             //Incrementing the faceNmb and reseting the blockNmb for each face
             faceNmb++
+            //Collecting the colour that refers to the current faceNmb that we are on
+            color = getColor("color"+faceNmb)
             blockNmb = 0
             for (let j=0;j<=2;j++){
                 for (let k=0;k<=2;k++){
                     blockNmb++
-                    localStorage.setItem("face"+faceNmb+"blockNmb"+blockNmb,"red")
+                    localStorage.setItem("face"+faceNmb+"blockNmb"+blockNmb,color)
                 }
             }
         }
         //Setting it in local storage that the initial cube has been set up
         localStorage.setItem("blockColours",true)
     }
-    //Setting the colours of the cube to the colours in the array
-    blockNmb = 0
-    //Getting the value of the faceNmb from local storage
-    faceNmb = localStorage.getItem("currentFaceNmb")
-    for (let j=0;j<=2;j++){
-        for(let k=0;k<=2;k++){
-            blockNmb++
-            block = document.getElementById("block"+blockNmb)
-            blockColour = localStorage.getItem("face"+faceNmb+"blockNmb"+blockNmb)
-            block.style.background = blockColour
-        }
-    }
+    //Displaying the face of the cube to the user
+    displayCubeFace()
 }
 
 // Function used to make the event listener functions for the blocks and colors 
@@ -214,14 +211,19 @@ function changeFace(e){
 //Updating the faceNmb and surrounding variables if the user selects to go Left or Right
 function updateFaceNmbsLeftRight(faceNmb){
     //Updating the surrounding faceNmbs, so the left and right now point to the correct face
-    if (faceNmb == 2 || faceNmb == 3){
-        localStorage.setItem("faceNmbLeft",faceNmb-1)
-        localStorage.setItem("faceNmbRight",faceNmb+1)
-    }
-    else if (faceNmb == 1){
+    if (faceNmb == 1){
         localStorage.setItem("faceNmbLeft",4)
         localStorage.setItem("faceNmbRight",2)
     }
+    else if (faceNmb == 2){
+        localStorage.setItem("faceNmbLeft",1)
+        localStorage.setItem("faceNmbRight",3)
+    }
+    else if (faceNmb == 3){
+        localStorage.setItem("faceNmbLeft",2)
+        localStorage.setItem("faceNmbRight",4)
+    }
+    
     else if (faceNmb == 4){
         localStorage.setItem("faceNmbLeft",3)
         localStorage.setItem("faceNmbRight",1)
@@ -251,6 +253,7 @@ function displayCubeFace(){
     blockNmb = 0
     //Getting the value of the faceNmb from local storage
     faceNmb = localStorage.getItem("currentFaceNmb")
+    console.log(faceNmb)
     for (let j=0;j<=2;j++){
         for(let k=0;k<=2;k++){
             blockNmb++
@@ -312,19 +315,19 @@ function getColor(colorId){
         return "red"
     }
     else if (colorId == "color2"){
-        return "orange"
+        return "yellow"
     }
     else if (colorId == "color3"){
-        return "blue"
+        return "orange"
     }
     else if (colorId == "color4"){
-        return "green"
-    }
-    else if (colorId == "color5"){
         return "white"
     }
+    else if (colorId == "color5"){
+        return "blue"
+    }
     else if (colorId == "color6"){
-        return "yellow"
+        return "green"
     }
     else{
         return "Error Occured"
