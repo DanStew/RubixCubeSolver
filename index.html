@@ -22,7 +22,7 @@
             <!-- Making a button for each option  button that the user can choose from -->
             <button onclick="colorToBlock()">Color to Block</button>
             <button onclick="blockToColor()">Block to Color</button>
-            <button>Reset</button>
+            <button onclick="resetCube()">Reset</button>
             <button id="hideCol" onclick="hideColours()">Hide Colors</button>
             <button id="showCol" class="hide" onclick="showColours()">Show Colors</button>
             <button id="hideCon" onclick="hideControls()">Hide Controls </button>
@@ -60,12 +60,12 @@
         </div>
     </div>
     <!-- Container which includes the controls to be able to rotate the cube -->
-    <div id="cubeControls" class="flexItems">
-        <span>Cube Face Rotate Options : </span>
-        <img id="cubeControl1" class="cubeControl" src="./Images/leftArrow.png" alt="Rotate Left">
-        <img id="cubeControl2" class="cubeControl" src="./Images/upArrow.png" alt="Rotate Up">
-        <img id="cubeControl3" class="cubeControl" src="./Images/downArrow.png" alt="Rotate Down">
-        <img id="cubeControl4" class="cubeControl" src="./Images/rightArrow.png" alt="Rotate Right">
+    <div id="cubeControls" class="flexItems con">
+        <span class="con">Cube Face Rotate Options : </span>
+        <img id="cubeControl1" class="cubeControl con" src="./Images/leftArrow.png" alt="Rotate Left">
+        <img id="cubeControl2" class="cubeControl con" src="./Images/upArrow.png" alt="Rotate Up">
+        <img id="cubeControl3" class="cubeControl con" src="./Images/downArrow.png" alt="Rotate Down">
+        <img id="cubeControl4" class="cubeControl con" src="./Images/rightArrow.png" alt="Rotate Right">
     </div>
     <!-- Container to include the 6 colors for the user to choose from to select -->
     <!-- The col class here is used to group all these elements (in a class that has no other effect) -->

@@ -291,22 +291,38 @@ function showColours(){
 
 // Function to hide the controls from the page
 function hideControls(){
-    controls = document.getElementById("cubeControls")
+    controls = document.getElementsByClassName("con")
     hideCon = document.getElementById("hideCon")
     showCon = document.getElementById("showCon")
     hideCon.classList.add("hide")
-    controls.classList.add("hide")
     showCon.classList.remove("hide")
+    for (let i=0;i<=5;i++){
+        controls[i].classList.add("hide")
+    }
 }
 
 // Function to show the controls from the page
 function showControls(){
-    controls = document.getElementById("cubeControls")
+    controls = document.getElementsByClassName("con")
     hideCon = document.getElementById("hideCon")
     showCon = document.getElementById("showCon")
     hideCon.classList.remove("hide")
-    controls.classList.remove("hide")
     showCon.classList.add("hide")
+    for (let i=0;i<=5;i++){
+        controls[i].classList.remove("hide")
+    }
+}
+
+//Function to reset the colours of the cube
+function resetCube(){
+    //Removing the current faceNmb from local storage
+    //This is so that the initialiser code will run in the faceNmbSetup() function
+    localStorage.removeItem("currentFaceNmb")
+    faceNmbSetup()
+    //Removing the blockColours item from localStorage
+    //This is so that the cube initialiser code will run in the setupCube function
+    localStorage.removeItem("blockColours")
+    setupCube()
 }
 
 //Function which translates a color id into the actual color that it refers to
