@@ -122,13 +122,23 @@ function selectBlock(e){
     currentMode = localStorage.getItem("currentMode")
     currentSelectedColor = localStorage.getItem("currentSelectedColor")
     if (currentMode == "Color To Block" && currentSelectedColor != "none" && currentSelectedBlock != "none"){
-        //Retrieving the actual color that the id we currently has refers to
-        color = getColor(currentSelectedColor)
-        faceNmb = localStorage.getItem("currentFaceNmb") //Collecting the current faceNmb from local storage
         blockNmb = currentSelectedBlock.id.substring(5) //Using the current selected block id to find the block number that it is
-        currentSelectedBlock.style.background = color
-        //Setting the color to connect to the block in local storage, so the system saves
-        localStorage.setItem("face"+faceNmb+"blockNmb"+blockNmb,color) 
+        errorIdentifier = document.getElementById("errorIdentifier")
+        //Checking to see if the block they are trying to change is the middle block
+        //If so, an error occurs as you are unable to do this
+        if (blockNmb == 5){
+            errorIdentifier.classList.remove("hide")
+            errorIdentifier.innerHTML = "Unable to change color of the central block in a face"
+        }
+        else{
+            errorIdentifier.classList.add("hide")
+            faceNmb = localStorage.getItem("currentFaceNmb") //Collecting the current faceNmb from local storage
+            //Retrieving the actual color that the id we currently has refers to
+            color = getColor(currentSelectedColor)
+            currentSelectedBlock.style.background = color
+            //Setting the color to connect to the block in local storage, so the system saves
+            localStorage.setItem("face"+faceNmb+"blockNmb"+blockNmb,color) 
+        }
     }
 }
 
@@ -156,14 +166,24 @@ function selectColor(e){
     currentMode = localStorage.getItem("currentMode")
     currentSelectedBlockId = localStorage.getItem("currentSelectedBlock")
     currentSelectedBlock = document.getElementById(currentSelectedBlockId)
-    if (currentMode == "Block To Color" && currentSelectedBlock != "none" && currentSelectedColor != "none"){
-        //Retrieving the actual color that the id we currently has refers to
-        color = getColor(currentSelectedColor.id)
-        faceNmb = localStorage.getItem("currentFaceNmb") //Collecting the current faceNmb from local storage
+    if (currentMode == "Block To Color" && currentSelectedBlockId != "none" && currentSelectedColor != "none"){
         blockNmb = currentSelectedBlock.id.substring(5) //Using the current selected block id to find the block number that it is
-        currentSelectedBlock.style.background = color
-        //Setting the color to connect to the block in local storage, so the system saves
-        localStorage.setItem("face"+faceNmb+"blockNmb"+blockNmb,color) 
+        //Checking to see if the block trying to be changed is the middle block
+        //If so, the error table will be run instead
+        errorIdentifier = document.getElementById("errorIdentifier")
+        if (blockNmb == 5){
+            errorIdentifier.classList.remove("hide")
+            errorIdentifier.innerHTML = "Unable to change color of the central block in a face"
+        }
+        else{
+            errorIdentifier.classList.add("hide")
+            //Retrieving the actual color that the id we currently has refers to
+            color = getColor(currentSelectedColor.id)
+            faceNmb = localStorage.getItem("currentFaceNmb") //Collecting the current faceNmb from local storage
+            currentSelectedBlock.style.background = color
+            //Setting the color to connect to the block in local storage, so the system saves
+            localStorage.setItem("face"+faceNmb+"blockNmb"+blockNmb,color) 
+        }
     }
 }
 
@@ -181,20 +201,14 @@ function changeFace(e){
         updateFaceNmbsLeftRight(faceNmbLeft)
     }
     else if (controlNmb == 2){
-        //Getting the value of the faceNmb when the user presses the UP button
-        faceNmbUp = localStorage.getItem("faceNmbUp")
-        //Changing the value of the current faceNmb in local storage
-        localStorage.setItem("currentFaceNmb",faceNmbUp)
+        faceNmb = localStorage.getItem("currentFaceNmb")
         //Updating the surrounding faceNmb variables in local storage
-        updateFaceNmbsUpDown(faceNmbUp)
+        updateFaceNmbsUp(faceNmb)
     }
     else if (controlNmb == 3){
-        //Getting the value of the faceNmb when the user presses the DOWN button
-        faceNmbDown = localStorage.getItem("faceNmbDown")
-        //Changing the value of the current faceNmb in local storage
-        localStorage.setItem("currentFaceNmb",faceNmbDown)
+        faceNmb = localStorage.getItem("currentFaceNmb")
         //Updating the surrounding faceNmb variables in local storage
-        updateFaceNmbsUpDown(faceNmbDown)
+        updateFaceNmbsDown(faceNmb)
     }
     else if (controlNmb == 4){
         //Getting the value of the faceNmb when the user presses right
@@ -231,18 +245,57 @@ function updateFaceNmbsLeftRight(faceNmb){
 }
 
 //Updating the faceNmb and surrounding variables if the user selects to go Up or Down
-function updateFaceNmbsUpDown(faceNmb){
-    //Updating the surrounding faceNmbs, so the up and down now point to the correct face
+function updateFaceNmbsUp(faceNmb){
+    //Collecting what the next down button value for faceNmb is
+    faceNmbUp = localStorage.getItem("faceNmbUp")
+    localStorage.setItem("currentFaceNmb",faceNmbUp)
+    //If the user goes back up, they return to the face that they just game from
+    localStorage.setItem("faceNmbDown",faceNmb)
+    //Finding and setting the value of the faceNmb if they go Up again
     if (faceNmb == 1){
-        localStorage.setItem("faceNmbUp",5)
-        localStorage.setItem("faceNmbDown",6)
+        localStorage.setItem("faceNmbUp",3)
     }
-    else if (faceNmb == 5){
+    if (faceNmb == 2){
+        localStorage.setItem("faceNmbUp",4)
+    }
+    if (faceNmb == 3){
+        localStorage.setItem("faceNmbUp",1)
+    }
+    if (faceNmb == 4){
+        localStorage.setItem("faceNmbUp",2)
+    }
+    if (faceNmb == 5){
         localStorage.setItem("faceNmbUp",6)
+    }
+    if (faceNmb == 6){
+        localStorage.setItem("faceNmbUp",5)
+    }
+}
+
+//Updating the faceNmb and surrounding variables if the user selects to go Up or Down
+function updateFaceNmbsDown(faceNmb){
+    //Collecting what the next down button value for faceNmb is
+    faceNmbDown = localStorage.getItem("faceNmbDown")
+    localStorage.setItem("currentFaceNmb",faceNmbDown)
+    //If the user goes back up, they return to the face that they just game from
+    localStorage.setItem("faceNmbUp",faceNmb)
+    //Finding and setting the value of the faceNmb if they go down again
+    if (faceNmb == 1){
+        localStorage.setItem("faceNmbDown",3)
+    }
+    if (faceNmb == 2){
+        localStorage.setItem("faceNmbDown",4)
+    }
+    if (faceNmb == 3){
         localStorage.setItem("faceNmbDown",1)
     }
-    else if (faceNmb == 6){
-        localStorage.setItem("faceNmbUp",1)
+    if (faceNmb == 4){
+        localStorage.setItem("faceNmbDown",2)
+    }
+    if (faceNmb == 5){
+        localStorage.setItem("faceNmbDown",6)
+    }
+    if (faceNmb == 6){
         localStorage.setItem("faceNmbDown",5)
     }
 }
@@ -331,13 +384,13 @@ function getColor(colorId){
         return "red"
     }
     else if (colorId == "color2"){
-        return "yellow"
+        return "white"
     }
     else if (colorId == "color3"){
         return "orange"
     }
     else if (colorId == "color4"){
-        return "white"
+        return "yellow"
     }
     else if (colorId == "color5"){
         return "blue"

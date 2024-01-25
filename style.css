@@ -53,7 +53,7 @@ button{
     width: 80%;
     display: flex;
     flex-direction: column;
-    flex: 4 4;
+    flex: 6 6;
 }
 
 .rowContainer{
@@ -107,6 +107,13 @@ button{
     width: 50px;
 }
 
+/* Styling for the error line of the website */
+#errorIdentifier{
+    margin-top:5px;
+    color: red;
+    font-size: 18px;
+}
+
 /* Styling the buttons that lead to the solve mode for the website */
 #startSolving{
     margin : 10px;
@@ -117,8 +124,8 @@ button{
 
 /* Setting the colors of the cube blocks */
 #color1{background-color:red;}
-#color2{background-color:yellow;}
+#color2{background-color:white;}
 #color3{background-color:orange;}
-#color4{background-color:white}
+#color4{background-color:yellow;}
 #color5{background-color:blue;}
 #color6{background-color:green;}
