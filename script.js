@@ -47,6 +47,7 @@ function faceNmbSetup(){
 function setupCube(){
     //Setting up the initial colours of the cube, if the user hasn't used the website before
     //This variable is used to check whether the colours have been previously set or not
+    localStorage.removeItem("blockColours")
     blockColours = localStorage.getItem("blockColours")
     if (blockColours == null){
         //Setting a default colour for each of the colours in the cube
@@ -63,14 +64,48 @@ function setupCube(){
                 for (let k=0;k<=2;k++){
                     blockNmb++
                     localStorage.setItem("face"+faceNmb+"blockNmb"+blockNmb,color)
+                    incrementColorAmount(color)
                 }
             }
         }
+        //Initialising the values of the colorAmounts (this is the only way I could get this to work?)
+        localStorage.setItem("redBlock",9)
+        localStorage.setItem("blueBlock",9)
+        localStorage.setItem("orangeBlock",9)
+        localStorage.setItem("greenBlock",9)
+        localStorage.setItem("whiteBlock",9)
+        localStorage.setItem("yellowBlock",9)
         //Setting it in local storage that the initial cube has been set up
         localStorage.setItem("blockColours",true)
     }
     //Displaying the face of the cube to the user
     displayCubeFace()
+}
+
+
+//Function to increment the amount of blocks of each color on the system, when changes are made
+//This is used to help with the verification function, ensuring that the user has a valid cube
+function incrementColorAmount(color){
+    currentColorAmount = JSON.parse(localStorage.getItem(color+"Block"))
+    localStorage.setItem(color+"Block",JSON.stringify(currentColorAmount+1))
+}
+
+//Function to decrease the amount of blocks of each color on the system
+//The opposite of the above function
+function decrementColorAmount(color){
+    currentColorAmount = JSON.parse(localStorage.getItem(color+"Block"))
+    localStorage.setItem(color+"Block",JSON.stringify(currentColorAmount-1))
+}
+
+//Function to remove the color amount variables from localStorage
+//This function is called within the reset cube function, as all colorAmounts will need to be reset to default
+function removeColorAmounts(){
+    localStorage.removeItem("redBlock")
+    localStorage.removeItem("blueBlock")
+    localStorage.removeItem("greenBlock")
+    localStorage.removeItem("orangeBlock")
+    localStorage.removeItem("whiteBlock")
+    localStorage.removeItem("yellowBlock")
 }
 
 // Function used to make the event listener functions for the blocks and colors 
@@ -135,6 +170,11 @@ function selectBlock(e){
             faceNmb = localStorage.getItem("currentFaceNmb") //Collecting the current faceNmb from local storage
             //Retrieving the actual color that the id we currently has refers to
             color = getColor(currentSelectedColor)
+            //Getting the current color that the block is (so that the block of that colour can be decremeneted)
+            currentColor = currentSelectedBlock.style.background
+            //Changing the number of blocks that are of each color
+            decrementColorAmount(currentColor)
+            incrementColorAmount(color)
             currentSelectedBlock.style.background = color
             //Setting the color to connect to the block in local storage, so the system saves
             localStorage.setItem("face"+faceNmb+"blockNmb"+blockNmb,color) 
@@ -179,6 +219,11 @@ function selectColor(e){
             errorIdentifier.classList.add("hide")
             //Retrieving the actual color that the id we currently has refers to
             color = getColor(currentSelectedColor.id)
+            //Getting the current color that the block is (so that the block of that colour can be decremeneted)
+            currentColor = currentSelectedBlock.style.background
+            //Changing the number of blocks that are of each color
+            decrementColorAmount(currentColor)
+            incrementColorAmount(color)
             faceNmb = localStorage.getItem("currentFaceNmb") //Collecting the current faceNmb from local storage
             currentSelectedBlock.style.background = color
             //Setting the color to connect to the block in local storage, so the system saves
@@ -306,7 +351,6 @@ function displayCubeFace(){
     blockNmb = 0
     //Getting the value of the faceNmb from local storage
     faceNmb = localStorage.getItem("currentFaceNmb")
-    console.log(faceNmb)
     for (let j=0;j<=2;j++){
         for(let k=0;k<=2;k++){
             blockNmb++
@@ -372,6 +416,8 @@ function resetCube(){
     //This is so that the initialiser code will run in the faceNmbSetup() function
     localStorage.removeItem("currentFaceNmb")
     faceNmbSetup()
+    //Removing the colorAmounts variables, so there can be reset to their default values
+    removeColorAmounts()
     //Removing the blockColours item from localStorage
     //This is so that the cube initialiser code will run in the setupCube function
     localStorage.removeItem("blockColours")
@@ -434,4 +480,34 @@ function blockToColor(){
     localStorage.setItem("currentMode","Block To Color")
     currentModeDiv = document.getElementById("currentMode")
     currentModeDiv.innerHTML = "Current Mode : Block To Color"
+}
+
+//Function to ensure that the cube is able to move into solving state
+//This function checks all the color amount variables to ensure they are correct, and if so moves the website into solving state
+function verifyCube(){
+    //Setting a default value for the verification state
+    cubeVerified = true
+    //Setting default values for variables that will be used, if the cube isn't verified
+    //These are initialised so they can be set in the for loop, and then used outside of the for loop
+    colorIssue = ""
+    colorIssueAmount = 0
+    for (let i=1; i<=6;i++){
+        currentColor = getColor("color"+i)
+        colorAmount = localStorage.getItem(currentColor+"Block")
+        if (colorAmount != 9){
+            cubeVerified = false
+            colorIssue = currentColor
+            colorIssueAmount = colorAmount
+        }
+    }
+    //Cube is verified so user is able to move into solving state
+    if (cubeVerified == true){
+        console.log("Cube verified")
+    }
+    //Displaying error amount
+    else{
+        errorIdentifier = document.getElementById("errorIdentifier")
+        errorIdentifier.classList.remove("hide")
+        errorIdentifier.innerHTML = "Unable to enter solving mode - Incorrect number of " + colorIssue + " blocks : " + colorIssueAmount + "/9"
+    }
 }
