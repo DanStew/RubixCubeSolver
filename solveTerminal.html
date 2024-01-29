@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rubix Cube Solver</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="./solveTerminal.js"></script>
+</head>
+<body onload="setup()">
+    <div class="header">
+        <!-- Title and Instructions on how to use the website -->
+        <div class="headerInfo flexItems">
+            <h1>Rubix Cube Solver</h1>
+            <p>Use the controls below in order to move your cube</p>
+            <p>Solve the cube for a surprise...</p>
+        </div>
+    </div>
+    <!-- Container where the cube will be displayed, including the 9 blocks on each face -->
+    <div class="cubeContainer">
+        <div id="currentMode"></div>
+        <div class="rowContainer flexItems">
+            <div id="block1" class="cubeBlock flexItems"></div>
+            <div id="block2" class="cubeBlock flexItems"></div>
+            <div id="block3" class="cubeBlock flexItems"></div>
+        </div>
+        <div class="rowContainer flexItems">
+            <div id="block4" class="cubeBlock flexItems"></div>
+            <div id="block5" class="cubeBlock flexItems"></div>
+            <div id="block6" class="cubeBlock flexItems"></div>
+        </div>
+        <div class="rowContainer flexItems">
+            <div id="block7" class="cubeBlock flexItems"></div>
+            <div id="block8" class="cubeBlock flexItems"></div>
+            <div id="block9" class="cubeBlock flexItems"></div>    
+        </div>
+    </div>
+    <!-- Container which includes the controls to be able to rotate the cube -->
+    <div id="cubeControls" class="flexItems con">
+        <span class="con">Cube Face Rotate Options : </span>
+        <img id="cubeControl1" class="cubeControl con" src="./Images/leftArrow.png" alt="Rotate Left">
+        <img id="cubeControl2" class="cubeControl con" src="./Images/upArrow.png" alt="Rotate Up">
+        <img id="cubeControl3" class="cubeControl con" src="./Images/downArrow.png" alt="Rotate Down">
+        <img id="cubeControl4" class="cubeControl con" src="./Images/rightArrow.png" alt="Rotate Right">
+    </div>
+    <!-- Button to allow the user to return to the cube picker page -->
+    <div id="solvingControl" class="flexItems">
+        <button id="startSolving" onclick="cubePicker()">Return to Cube Picker</button>
+    </div>
+</body>
+</html>

@@ -47,7 +47,6 @@ function faceNmbSetup(){
 function setupCube(){
     //Setting up the initial colours of the cube, if the user hasn't used the website before
     //This variable is used to check whether the colours have been previously set or not
-    localStorage.removeItem("blockColours")
     blockColours = localStorage.getItem("blockColours")
     if (blockColours == null){
         //Setting a default colour for each of the colours in the cube
@@ -426,26 +425,19 @@ function resetCube(){
 
 //Function which translates a color id into the actual color that it refers to
 function getColor(colorId){
-    if (colorId == "color1"){
-        return "red"
-    }
-    else if (colorId == "color2"){
-        return "white"
-    }
-    else if (colorId == "color3"){
-        return "orange"
-    }
-    else if (colorId == "color4"){
-        return "yellow"
-    }
-    else if (colorId == "color5"){
-        return "blue"
-    }
-    else if (colorId == "color6"){
-        return "green"
-    }
-    else{
-        return "Error Occured"
+    switch(colorId){
+        case "color1" : 
+            return "red"
+        case "color2" : 
+            return "white"
+        case "color3" : 
+            return "orange"
+        case "color4" : 
+            return "yellow"
+        case "color5" : 
+            return "blue"
+        case "color6" : 
+            return "green"
     }
 }
 
