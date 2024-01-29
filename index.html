@@ -7,9 +7,8 @@
     <link rel="stylesheet" href="./style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <script src="./script.js"></script>
 </head>
-<body onload="setup()">
+<body>
     <div class="header">
         <!-- Title and Instructions on how to use the website -->
         <div class="headerInfo flexItems">
@@ -20,10 +19,10 @@
         <!-- Container to contain the different options for the user to choose how they select the colours of the cube-->
         <div class="optionsContainer flexItems">
             <!-- Making a button for each option  button that the user can choose from -->
-            <button onclick="colorToBlock()">Color to Block</button>
-            <button onclick="blockToColor()">Block to Color</button>
-            <button onclick="resetCube()">Reset</button>
-            <button id="hideCol" onclick="hideColours()">Hide Colors</button>
+            <button id="colToBlock">Color to Block</button>
+            <button id="blockToCol">Block to Color</button>
+            <button id="reset">Reset</button>
+            <button id="hideCol">Hide Colors</button>
             <button id="showCol" class="hide" onclick="showColours()">Show Colors</button>
             <button id="hideCon" onclick="hideControls()">Hide Controls </button>
             <button id="showCon" class="hide" onclick="showControls()">Show Controls</button>
@@ -83,7 +82,10 @@
     <!-- Button to allow the user to start solving the cube -->
     <!-- This button will call for validation functions to ensure the cube is in a correct place to solve -->
     <div id="solvingControl" class="flexItems">
-        <button id="startSolving" onclick="verifyCube()">Start Solving</button>
+        <button id="startSolving">Start Solving</button>
     </div>
 </body>
+<script type="module" src="./script.js"></script>
+<script type="module" src="./cube.js"></script>
+<script type="module" src="./block.js"></script>
 </html>
