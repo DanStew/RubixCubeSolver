@@ -5,18 +5,18 @@ class Cube {
     //Making a block array
     this.blocks = new Array();
     //Initialising default variables
-    this.faceNmb = 1;
-    this.faceNmbLeft = 4;
-    this.faceNmbRight = 2;
-    this.faceNmbUp = 5;
-    this.faceNmbDown = 6;
+    this.faceNmb = 1
+    this.faceNmbLeft = 4
+    this.faceNmbRight = 2
+    this.faceNmbUp = 5
+    this.faceNmbDown = 6
     //Initialising the colorAmount variables for the cube
-    this.redAmount = 0;
-    this.orangeAmount = 0;
-    this.greenAmount = 0;
-    this.blueAmount = 0;
-    this.yellowAmount = 0;
-    this.whiteAmount = 0;
+    this.redAmount = 0
+    this.orangeAmount = 0
+    this.greenAmount = 0
+    this.blueAmount = 0
+    this.yellowAmount = 0
+    this.whiteAmount = 0
   }
 
   //Making all the blocks to go into the array, to represent the cube
@@ -25,10 +25,17 @@ class Cube {
     for (let i = 1; i <= 6; i++) {
       let color = this.getColor(i);
       for (let j = 1; j <= 9; j++) {
-        let newBlock = new Block(i, j, color);
-        this.blocks.push(newBlock);
+        this.makeBlock(i,j,color)
       }
     }
+  }
+
+  //Function primarily used to remake the blocks array after saving a cube
+  //Also used in the makeBlocks() function to simplify code (Reduce lines)
+  makeBlock(pFaceNmb,pBlockNmb,pColor){
+    let newBlock = new Block(pFaceNmb,pBlockNmb,pColor)
+    this.incrementColorVariables(pColor)
+    this.blocks.push(newBlock)
   }
 
   displayCube() {
@@ -39,7 +46,6 @@ class Cube {
           "block" + this.blocks[i].getBlockNmb()
         );
         let blockColour = this.blocks[i].getColor();
-        this.incrementColorVariables(blockColour);
         block.style.background = blockColour;
         cubesDisplayed += 1;
         if (cubesDisplayed == 9) {
@@ -210,18 +216,20 @@ class Cube {
   //This function checks all the color amount variables to ensure they are correct, and if so moves the website into solving state
   verifyCube() {
     //Setting a default value for the verification state
-    cubeVerified = true;
+    let cubeVerified = true;
     //Setting default values for variables that will be used, if the cube isn't verified
     //These are initialised so they can be set in the for loop, and then used outside of the for loop
-    colorIssue = "";
-    colorIssueAmount = 0;
-    for (let i = 1; i <= 6; i++) {
-      currentColor = getColor("color" + i);
-      colorAmount = localStorage.getItem(currentColor + "Block");
-      if (colorAmount != 9) {
-        cubeVerified = false;
-        colorIssue = currentColor;
-        colorIssueAmount = colorAmount;
+    let colorIssue = "";
+    let colorIssueAmount = 0;
+    //Making an array storing the color and the amount of each color (makes it easier to loop through all the colors)
+    let colorAmounts = [["red",this.redAmount],["orange",this.orangeAmount],["blue",this.blueAmount],["green",this.greenAmount],["yellow",this.yellowAmount],["white",this.whiteAmount]]
+    for (let i=0; i<=5; i++){
+      if (colorAmounts[i][1] != 9){
+        //Defining the colorIssue variables, if incorrect number of colors
+        cubeVerified = false
+        colorIssue = colorAmounts[i][0]
+        colorIssueAmount = colorAmounts[i][1]
+        break
       }
     }
     //Cube is verified so user is able to move into solving state
@@ -230,10 +238,27 @@ class Cube {
     }
     //Displaying error amount
     else {
-      errorIdentifier = document.getElementById("errorIdentifier");
+      let errorIdentifier = document.getElementById("errorIdentifier");
       errorIdentifier.classList.remove("hide");
       errorIdentifier.innerHTML ="Unable to enter solving mode - Incorrect number of " +colorIssue +" blocks : " +colorIssueAmount +"/9";
     }
+  }
+
+  //Function to save all cube information to local storage, so the cube can be accessed later
+  saveCube(){
+    //Code to save all of the blocks within the cube to local storage
+    for (let i=0;i<=53;i++){
+      //Collecting all of the information from the block
+      let faceNmb = this.blocks[i].getFaceNmb()
+      let blockNmb = this.blocks[i].getBlockNmb()
+      let color = this.blocks[i].getColor()
+      //Saving it in local storage
+      localStorage.setItem("block"+i,faceNmb+","+blockNmb+","+color)
+    }
+    //Setting a variable to notify whether cube has been saved or not
+    localStorage.setItem("savedCube",true)
+    //Other information isn't saved as it isn't necessary
+    //ColorAmount variables are recollected when remaking the cube
   }
 }
 
