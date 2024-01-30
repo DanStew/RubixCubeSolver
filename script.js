@@ -14,9 +14,9 @@ window.onload = function(){
         //Making the default blocks in the cube
         cube.makeBlocks()
     }
+    cube.setCurrentMode("Block To Color")
     cube.displayCube()
     createEvents()
-    currentModeSetup()
 }
 
 //Function used to remake any cubes that have been saved in localStorage
@@ -31,19 +31,6 @@ function remakeCube(){
     }
 }
 
-//Function to setup the current mode for the website
-function currentModeSetup(){
-    //Setting the default cube change mode and displaying it to the screen
-    let currentMode =localStorage.getItem("currentMode")
-    let currentModeDiv = document.getElementById("currentMode")
-    //Setting a default value for the currentMode if user hasn't entered site before
-    if (currentMode == null){
-        localStorage.setItem("currentMode","Color To Block")
-        currentMode = "Color To Block"
-    }
-    currentModeDiv.innerHTML = "Current Mode : " + currentMode
-}
-
 // Function used to make the event listener functions for the blocks and colors 
 function createEvents(){
     // Creating the click event listener for each block 
@@ -51,7 +38,7 @@ function createEvents(){
     let blocks = new Array(9)
     for (let i=1; i<=9; i++){
         blocks[i-1] = document.getElementById("block"+i)
-        blocks[i-1].addEventListener("click",(e) => selectBlock(e))
+        blocks[i-1].addEventListener("click",(e) => cube.selectBlock(e))
     }
     // Creating the click event for the colors 
     // Code implemented the same way the block code has been
@@ -69,54 +56,11 @@ function createEvents(){
 }
 
 // Function used to select the block of the cube 
-function selectBlock(e){
-    let currentSelectedBlockId = localStorage.getItem("currentSelectedBlock")
-    let currentSelectedBlock = document.getElementById(currentSelectedBlockId)
-    if (currentSelectedBlock == e.target){
-        currentSelectedBlock.style.border="5px solid black"
-        currentSelectedBlock = "none"
-        localStorage.removeItem("currentSelectedBlock")
-    }
-    else{
-        if (currentSelectedBlock != null){
-            currentSelectedBlock.style.border = "5px solid black"
-        }
-        e.target.style.border = "5px solid white"
-        currentSelectedBlock = e.target
-        localStorage.setItem("currentSelectedBlock",currentSelectedBlock.id)
-    }
-    //Changing the color of blocks if appropriate and correct mode
-    let currentMode = localStorage.getItem("currentMode")
-    let currentSelectedColor = localStorage.getItem("currentSelectedColor")
-    if (currentMode == "Color To Block" && currentSelectedColor != "none" && currentSelectedBlock != "none"){
-        let blockObject = cube.findBlock(e.target.id.substring(5))
-        let errorIdentifier = document.getElementById("errorIdentifier")
-        //Checking to see if the block they are trying to change is the middle block
-        //If so, an error occurs as you are unable to do this
-        if (blockObject.getBlockNmb() == 5){
-            errorIdentifier.classList.remove("hide")
-            errorIdentifier.innerHTML = "Unable to change color of the central block in a face"
-        }
-        else{
-            errorIdentifier.classList.add("hide")
-            let faceNmb = blockObject.getFaceNmb() //Collecting the current faceNmb from the cube object
-            //Retrieving the actual color that the id we currently has refers to
-            let color = getColor(currentSelectedColor)
-            //Getting the current color that the block is (so that the block of that colour can be decremeneted)
-            let currentColor = currentSelectedBlock.style.background
-            //Changing the number of blocks that are of each color
-            cube.decrementColorVariables(currentColor)
-            cube.incrementColorVariables(color)
-            blockObject.setColor(color)
-            currentSelectedBlock.style.background = color
-        }
-    }
-}
-
-// Function used to select the block of the cube 
 function selectColor(e){
     let currentSelectedColorId = localStorage.getItem("currentSelectedColor")
+    console.log(currentSelectedColorId)
     let currentSelectedColor = document.getElementById(currentSelectedColorId)
+    console.log(currentSelectedColor)
     if (currentSelectedColor == e.target){
         currentSelectedColor.style.border="4px solid black"
         currentSelectedColor = "none"
@@ -131,12 +75,10 @@ function selectColor(e){
         localStorage.setItem("currentSelectedColor",currentSelectedColor.id)
     }
     //Changing the color of blocks if appropriate and correct mode
-    let currentMode = localStorage.getItem("currentMode")
-    let currentSelectedBlockId = localStorage.getItem("currentSelectedBlock")
-    let currentSelectedBlock = document.getElementById(currentSelectedBlockId)
-    if (currentMode == "Block To Color" && currentSelectedBlockId != null && currentSelectedColor != "none"){
-        let blockObject = cube.findBlock(currentSelectedBlockId.substring(5))
-        let blockNmb = blockObject.getBlockNmb() //Using the current selected block id to find the block number that it is
+    let currentMode = cube.getCurrentMode()
+    let currentSelectedBlock = cube.getCurrentSelectedBlock()
+    if (currentMode == "Block To Color" && currentSelectedBlock != null && currentSelectedColor != "none"){
+        let blockNmb = currentSelectedBlock.getBlockNmb() //Using the current selected block id to find the block number that it is
         //Checking to see if the block trying to be changed is the middle block
         //If so, the error table will be run instead
         let errorIdentifier = document.getElementById("errorIdentifier")
@@ -149,13 +91,13 @@ function selectColor(e){
             //Retrieving the actual color that the id we currently has refers to
             let color = getColor(currentSelectedColor.id)
             //Getting the current color that the block is (so that the block of that colour can be decremeneted)
-            let currentColor = currentSelectedBlock.style.background
+            let currentColor = currentSelectedBlock.getColor()
             //Changing the number of blocks that are of each color
             cube.decrementColorVariables(currentColor)
             cube.incrementColorVariables(color)
-            currentSelectedBlock.style.background = color
             //Setting the color to connect to the block in local storage, so the system saves
-            blockObject.setColor(color)
+            currentSelectedBlock.setColor(color)
+            cube.displayCube()
         }
     }
 }
@@ -257,17 +199,9 @@ document.getElementById("hideInfo").onclick = function(){
 }
 
 //Functions to change the currentMode of the website
-document.getElementById("colToBlock").onclick = function(){
-    localStorage.setItem("currentMode","Color To Block")
-    let currentModeDiv = document.getElementById("currentMode")
-    currentModeDiv.innerHTML = "Current Mode : Color To Block"
-}
+document.getElementById("colToBlock").onclick = function(){cube.setCurrentMode("Color To Block")}
 
-document.getElementById("blockToCol").onclick = function(){
-    localStorage.setItem("currentMode","Block To Color")
-    let currentModeDiv = document.getElementById("currentMode")
-    currentModeDiv.innerHTML = "Current Mode : Block To Color"
-}
+document.getElementById("blockToCol").onclick = function(){cube.setCurrentMode("Block To Color")}
 
 document.getElementById("startSolving").onclick = function(){cube.verifyCube()}
 

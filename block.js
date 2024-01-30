@@ -1,8 +1,9 @@
 class Block{
-    constructor(pFaceNmb,pBlockNmb,pColor){
+    constructor(pFaceNmb,pBlockNmb,pColor,pBorder="5px solid black"){
         this.faceNmb = pFaceNmb
         this.blockNmb = pBlockNmb
         this.color = pColor
+        this.border = pBorder
     }
 
     //Getter and setter methods for the blocks
@@ -28,6 +29,14 @@ class Block{
 
     getColor(){
         return this.color
+    }
+
+    setBorder(pBorder){
+        this.border = pBorder
+    }
+
+    getBorder(){
+        return this.border
     }
 }
 
