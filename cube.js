@@ -102,11 +102,7 @@ class Cube {
       currentSelectedColor = parseInt(localStorage.getItem("currentSelectedColor").substring(5));
     }
     catch{console.log("No Current Color")}
-    if (
-      this.currentMode == "Color To Block" &&
-      currentSelectedColor != "none" &&
-      this.currentSelectedBlock != null
-    ) {
+    if (this.currentMode == "Color To Block" && currentSelectedColor != "none" && this.currentSelectedBlock != null) {
       let errorIdentifier = document.getElementById("errorIdentifier");
       //Checking to see if the block they are trying to change is the middle block
       //If so, an error occurs as you are unable to do this
@@ -295,14 +291,7 @@ class Cube {
     let colorIssue = "";
     let colorIssueAmount = 0;
     //Making an array storing the color and the amount of each color (makes it easier to loop through all the colors)
-    let colorAmounts = [
-      ["red", this.redAmount],
-      ["orange", this.orangeAmount],
-      ["blue", this.blueAmount],
-      ["green", this.greenAmount],
-      ["yellow", this.yellowAmount],
-      ["white", this.whiteAmount],
-    ];
+    let colorAmounts = [["red", this.redAmount],["orange", this.orangeAmount],["blue", this.blueAmount],["green", this.greenAmount],["yellow", this.yellowAmount],["white", this.whiteAmount]];
     for (let i = 0; i <= 5; i++) {
       if (colorAmounts[i][1] != 9) {
         //Defining the colorIssue variables, if incorrect number of colors
@@ -314,18 +303,15 @@ class Cube {
     }
     //Cube is verified so user is able to move into solving state
     if (cubeVerified == true) {
-      console.log("Cube verified");
+      this.saveCube()
+      localStorage.setItem("solveTerminal",true) //Variable to tell system that the user is allowed on page
+      window.location.href = 'solveTerminal.html'
     }
     //Displaying error amount
     else {
       let errorIdentifier = document.getElementById("errorIdentifier");
       errorIdentifier.classList.remove("hide");
-      errorIdentifier.innerHTML =
-        "Unable to enter solving mode - Incorrect number of " +
-        colorIssue +
-        " blocks : " +
-        colorIssueAmount +
-        "/9";
+      errorIdentifier.innerHTML ="Unable to enter solving mode - Incorrect number of " +colorIssue +" blocks : " +colorIssueAmount +"/9";
     }
   }
 
