@@ -100,12 +100,46 @@ button{
     display: flex;
     align-items: center;
     justify-content: center;
+    flex: 4 4;
 }
 
 .cubeControl{
     height: 50px;
     width: 50px;
 }
+
+#twistControls{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#faceControls{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.controlRow{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+.rowControl{
+    width: 40px;
+    height: 40px;
+}
+
+.blankSquare{
+    border: 2px solid white;
+    border-radius: 20%;
+    background-color: darkgray;
+}
+
 
 /* Styling for the error line of the website */
 #errorIdentifier{

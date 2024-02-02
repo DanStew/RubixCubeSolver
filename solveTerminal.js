@@ -37,6 +37,14 @@ function createEvents(){
         controls[i-1] = document.getElementById("cubeControl"+i)
         controls[i-1].addEventListener("click",(e) => cube.changeFace(e))
     }
+    let rowControls = document.getElementsByClassName("rowControlArrow")
+    for (let i=0; i<=11;i++){
+        rowControls[i].addEventListener("click",() => test())
+    }
+}
+
+function test(){
+    console.log("clicked")
 }
 
 document.getElementById("cubePicker").onclick = function(){window.location.href = "index.html"}

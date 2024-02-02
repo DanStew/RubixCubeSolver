@@ -41,11 +41,54 @@
     </div>
     <!-- Container which includes the controls to be able to rotate the cube -->
     <div id="cubeControls" class="flexItems con">
-        <span class="con">Cube Face Rotate Options : </span>
-        <img id="cubeControl1" class="cubeControl con" src="./Images/leftArrow.png" alt="Rotate Left">
-        <img id="cubeControl2" class="cubeControl con" src="./Images/upArrow.png" alt="Rotate Up">
-        <img id="cubeControl3" class="cubeControl con" src="./Images/downArrow.png" alt="Rotate Down">
-        <img id="cubeControl4" class="cubeControl con" src="./Images/rightArrow.png" alt="Rotate Right">
+        <div id="faceControls" class="flexItems">
+            <div>
+                <span class="con">Cube Face Rotate Options : </span>
+            </div>
+            <div>
+                <img id="cubeControl1" class="cubeControl con" src="./Images/leftArrow.png" alt="Rotate Left">
+                <img id="cubeControl2" class="cubeControl con" src="./Images/upArrow.png" alt="Rotate Up">
+                <img id="cubeControl3" class="cubeControl con" src="./Images/downArrow.png" alt="Rotate Down">
+                <img id="cubeControl4" class="cubeControl con" src="./Images/rightArrow.png" alt="Rotate Right">
+            </div>
+        </div>
+        <div id="twistControls" class="twistControl flexItems hide">
+            <div class="controlRow flexItems">
+                <div class="noControl rowControl"></div>
+                <img id="upL" class="rowControl rowControlArrow" src="./Images/upArrow.png" alt="Rotate Up">
+                <img id="upM" class="rowControl rowControlArrow" src="./Images/upArrow.png" alt="Rotate Up">
+                <img id="upR" class="rowControl rowControlArrow" src="./Images/upArrow.png" alt="Rotate Up">
+                <div class="noControl rowControl"></div>
+            </div>
+            <div class="controlRow flexItems">
+                <img id="leftT" class="rowControl rowControlArrow" src="./Images/leftArrow.png" alt="Rotate Left">
+                <div class="blankSquare rowControl"></div>
+                <div class="blankSquare rowControl"></div>
+                <div class="blankSquare rowControl"></div>
+                <img id="rightT" class="rowControl rowControlArrow" src="./Images/rightArrow.png" alt="Rotate Right">
+            </div>
+            <div class="controlRow flexItems">
+                <img id="leftM" class="rowControl rowControlArrow" src="./Images/leftArrow.png" alt="Rotate Left">
+                <div class="blankSquare rowControl"></div>
+                <div class="blankSquare rowControl"></div>
+                <div class="blankSquare rowControl"></div>
+                <img id="rightM" class="rowControl rowControlArrow" src="./Images/rightArrow.png" alt="Rotate Right">
+            </div>
+            <div class="controlRow flexItems">
+                <img id="LeftB" class="rowControl rowControlArrow" src="./Images/leftArrow.png" alt="Rotate Left">
+                <div class="blankSquare rowControl"></div>
+                <div class="blankSquare rowControl"></div>
+                <div class="blankSquare rowControl"></div>
+                <img id="RightB" class="rowControl rowControlArrow" src="./Images/rightArrow.png" alt="Rotate Right">
+            </div>
+            <div class="controlRow flexItems">
+                <div class="noControl rowControl"></div>
+                <img id="downL" class="rowControl rowControlArrow" src="./Images/downArrow.png" alt="Rotate Down">
+                <img id="downM" class="rowControl rowControlArrow" src="./Images/downArrow.png" alt="Rotate Down">
+                <img id="downR" class="rowControl rowControlArrow" src="./Images/downArrow.png" alt="Rotate Down">
+                <div class="noControl rowControl"></div>
+            </div>
+        </div>
     </div>
     <!-- Button to allow the user to return to the cube picker page -->
     <div id="solvingControl" class="flexItems">
