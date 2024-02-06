@@ -217,6 +217,8 @@ class Cube {
     this.displayCube();
   }
 
+  //Function to find the faceNmb of the opposite side of the cube, that the user is currently on
+  //Ie red and orange are on oppsite sides of the cube, so inputting red returns orange and etc.
   oppositeColour(colorNmb){
     if (colorNmb == 1){
       return 3
@@ -287,6 +289,99 @@ class Cube {
     localStorage.setItem("savedCube", true);
     //Other information isn't saved as it isn't necessary
     //ColorAmount variables are recollected when remaking the cube
+  }
+
+  //Function to turn the individual rows on the cube, to allow the user to move the cube
+  turnRow(e){
+    //Finding the action that the user is doing, and where they are doing this
+    //This is done by translating the HTML Id's into the direction and location
+    let targetId = e.target.id
+    let actionLocation = targetId.substring(targetId.length-1)
+    let actionDirection = targetId.split(actionLocation)[0]
+    //Finding how much the blockNmb increment needs to be multiplied by, given the location that the user has selected
+    let locationValue = this.translateLocation(actionLocation)
+    //Initialising a faceNmbs array, marking the different faceNmbs that will be accessed
+    //Here, the order of the faceNmbs in the array is the order in which the different faceNmbs will need to be
+    let faceNmbs;
+    if (actionDirection == "right"){
+      faceNmbs = [this.faceNmb,this.faceNmbRight,this.oppositeColour(this.faceNmb),this.faceNmbLeft]
+    }
+    else if (actionDirection == "left"){
+      faceNmbs = [this.faceNmb,this.faceNmbLeft,this.oppositeColour(this.faceNmb),this.faceNmbRight]
+    }
+    else if (actionDirection == "up"){
+      faceNmbs = [this.faceNmb,this.faceNmbUp,this.oppositeColour(this.faceNmb),this.faceNmbDown]
+    }
+    else{
+      faceNmbs = [this.faceNmb,this.faceNmbDown,this.oppositeColour(this.faceNmb),this.faceNmbUp]
+    }
+    //Moving the faceNmbs of the blocks and getting all the blocks that have been accessed (and their indexes)
+    let accessedBlocks = this.moveRows(actionDirection,locationValue,faceNmbs)
+    //Function used to sort the blocks array to put the blocks to the new locations where they should be
+    this.sortBlocks(accessedBlocks)
+    //Displaying the new cube that has been made
+    this.displayCube()
+    console.log(this.blocks)
+  }
+  
+  moveRows(actionDirection,locationValue,faceNmbs){
+    let accessedBlocks = []
+    for (let i=1; i<=4; i++){
+      let currentFaceNmb = faceNmbs[i-1]
+      for (let j=1; j<=3;j++){
+        let currentBlock
+        if (actionDirection == "up" || actionDirection == "down"){
+          console.log(locationValue+1+(j-1)*3)
+          currentBlock = this.blocks[(currentFaceNmb-1)*9 + (locationValue+1+(j-1)*3) -1]
+          console.log(currentBlock)
+        }
+        else if (actionDirection == "right" || actionDirection == "left"){
+          currentBlock = this.blocks[(currentFaceNmb-1)*9 + (j+3*locationValue-1)]
+        }
+        if (i < 4){
+          currentBlock.setFaceNmb(faceNmbs[i])
+        }
+        else{
+          currentBlock.setFaceNmb(faceNmbs[0])
+        }
+        if (actionDirection == "up" || actionDirection == "down"){
+          accessedBlocks.push([currentBlock,(currentFaceNmb-1)*9 + (locationValue+1+(j-1)*3) -1])
+        }
+        else if (actionDirection == "right" || actionDirection == "left"){
+          accessedBlocks.push([currentBlock,(currentFaceNmb-1)*9 + (j+3*locationValue-1)])
+        }
+        
+      }
+    }
+    return accessedBlocks
+  }
+
+  //Translation the location where the user has selected to turn into a value, to be used later in calculations
+  translateLocation(actionLocation){
+    if (actionLocation == "T" || actionLocation == "L"){
+      return 0
+    }
+    else if (actionLocation == "M"){
+      return 1
+    }
+    else{
+      return 2
+    }
+  }
+
+  sortBlocks(accessedBlocks){
+    for (let i=1;i<=4;i++){
+      let k
+      if (i<4){
+        k=i
+      }
+      else{
+        k=0
+      }
+      for (let j=1;j<=3;j++){
+        this.blocks[accessedBlocks[3*k+j-1][1]] = accessedBlocks[3*(i-1)+j-1][0]
+      }
+    }
   }
 }
 
