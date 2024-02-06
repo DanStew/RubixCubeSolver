@@ -108,11 +108,11 @@ function getColor(colorId){
         case "color1" : 
             return "red"
         case "color2" : 
-            return "white"
+            return "yellow"
         case "color3" : 
             return "orange"
         case "color4" : 
-            return "yellow"
+            return "white"
         case "color5" : 
             return "blue"
         case "color6" : 

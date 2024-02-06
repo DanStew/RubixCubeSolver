@@ -174,11 +174,11 @@ class Cube {
       case 1:
         return "red";
       case 2:
-        return "white";
+        return "yellow";
       case 3:
         return "orange";
       case 4:
-        return "yellow";
+        return "white";
       case 5:
         return "blue";
       case 6:
@@ -194,90 +194,47 @@ class Cube {
     let controlNmb = e.target.id.substring(11);
     //Changing the face number of the cube depending on what button the user has pressed
     if (controlNmb == 1) {
-      this.faceNmb = this.faceNmbLeft;
-      //Updating the surrounding faceNmbs
-      this.updateFaceNmbsLeftRight(this.faceNmbLeft);
-    } else if (controlNmb == 2) {
-      //Updating the surrounding faceNmb variables in local storage
-      this.updateFaceNmbsUp(this.faceNmb);
-    } else if (controlNmb == 3) {
-      //Updating the surrounding faceNmb variables in local storage
-      this.updateFaceNmbsDown(this.faceNmb);
-    } else if (controlNmb == 4) {
-      this.faceNmb = this.faceNmbRight;
-      //Updating the surrounding faceNmbs, so the left and right now point to the correct face
-      this.updateFaceNmbsLeftRight(this.faceNmbRight);
+      this.faceNmbRight = this.faceNmb
+      this.faceNmb = this.faceNmbLeft
+      this.faceNmbLeft = this.oppositeColour(this.faceNmbRight)
+    } 
+    else if (controlNmb == 2) {
+      this.faceNmbDown = this.faceNmb;
+      this.faceNmb = this.faceNmbUp;
+      this.faceNmbUp = this.oppositeColour(this.faceNmbDown);
+    } 
+    else if (controlNmb == 3) {
+      this.faceNmbUp = this.faceNmb;
+      this.faceNmb = this.faceNmbDown;
+      this.faceNmbDown = this.oppositeColour(this.faceNmbUp)
+    } 
+    else if (controlNmb == 4) {
+      this.faceNmbLeft = this.faceNmb;
+      this.faceNmb = this.faceNmbRight
+      this.faceNmbRight = this.oppositeColour(this.faceNmbLeft);
     }
     //Calling the function to display the new face onto the website
     this.displayCube();
   }
 
-  //Updating the faceNmb and surrounding variables if the user selects to go Left or Right
-  updateFaceNmbsLeftRight(faceNmb) {
-    //Updating the surrounding faceNmbs, so the left and right now point to the correct face
-    if (faceNmb == 1) {
-      this.faceNmbLeft = 4;
-      this.faceNmbRight = 2;
-    } else if (faceNmb == 2) {
-      this.faceNmbLeft = 1;
-      this.faceNmbRight = 3;
-    } else if (faceNmb == 3) {
-      this.faceNmbLeft = 2;
-      this.faceNmbRight = 4;
-    } else if (faceNmb == 4) {
-      this.faceNmbLeft = 3;
-      this.faceNmbRight = 1;
+  oppositeColour(colorNmb){
+    if (colorNmb == 1){
+      return 3
     }
-  }
-
-  //Updating the faceNmb and surrounding variables if the user selects to go Up or Down
-  updateFaceNmbsUp(faceNmb) {
-    //Collecting what the next down button value for faceNmb is
-    this.faceNmbDown = this.faceNmb;
-    this.faceNmb = this.faceNmbUp;
-    //Finding and setting the value of the faceNmb if they go Up again
-    if (faceNmb == 1) {
-      this.faceNmbUp = 3;
+    else if (colorNmb == 2){
+      return 4
     }
-    if (faceNmb == 2) {
-      this.faceNmbUp = 4;
+    else if (colorNmb == 3){
+      return 1
     }
-    if (faceNmb == 3) {
-      this.faceNmbUp = 1;
+    else if (colorNmb == 4){
+      return 2
     }
-    if (faceNmb == 4) {
-      this.faceNmbUp = 2;
+    else if (colorNmb == 5){
+      return 6
     }
-    if (faceNmb == 5) {
-      this.faceNmbUp = 6;
-    }
-    if (faceNmb == 6) {
-      this.faceNmbUp = 5;
-    }
-  }
-
-  //Updating the faceNmb and surrounding variables if the user selects to go Up or Down
-  updateFaceNmbsDown(faceNmb) {
-    this.faceNmbUp = this.faceNmb;
-    this.faceNmb = this.faceNmbDown;
-    //Finding and setting the value of the faceNmb if they go down again
-    if (faceNmb == 1) {
-      this.faceNmbDown = 3;
-    }
-    if (faceNmb == 2) {
-      this.faceNmbDown = 4;
-    }
-    if (faceNmb == 3) {
-      this.faceNmbDown = 1;
-    }
-    if (faceNmb == 4) {
-      this.faceNmbDown = 2;
-    }
-    if (faceNmb == 5) {
-      this.faceNmbDown = 6;
-    }
-    if (faceNmb == 6) {
-      this.faceNmbDown = 5;
+    else if (colorNmb == 6){
+      return 5
     }
   }
 
