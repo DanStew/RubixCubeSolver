@@ -15,7 +15,7 @@ class Block{
         return this.faceNmb
     }
 
-    setBlockNmb(){
+    setBlockNmb(pBlockNmb){
         this.blockNmb = pBlockNmb
     }
 

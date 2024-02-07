@@ -317,11 +317,14 @@ class Cube {
     }
     //Moving the faceNmbs of the blocks and getting all the blocks that have been accessed (and their indexes)
     let accessedBlocks = this.moveRows(actionDirection,locationValue,faceNmbs)
+    //Rotating the side connected the location where the cube has been turned
+    if (actionLocation != "M"){
+      this.rotateSide(actionLocation,targetId)
+    }
     //Function used to sort the blocks array to put the blocks to the new locations where they should be
     this.sortBlocks(accessedBlocks)
     //Displaying the new cube that has been made
     this.displayCube()
-    console.log(this.blocks)
   }
   
   moveRows(actionDirection,locationValue,faceNmbs){
@@ -331,9 +334,7 @@ class Cube {
       for (let j=1; j<=3;j++){
         let currentBlock
         if (actionDirection == "up" || actionDirection == "down"){
-          console.log(locationValue+1+(j-1)*3)
           currentBlock = this.blocks[(currentFaceNmb-1)*9 + (locationValue+1+(j-1)*3) -1]
-          console.log(currentBlock)
         }
         else if (actionDirection == "right" || actionDirection == "left"){
           currentBlock = this.blocks[(currentFaceNmb-1)*9 + (j+3*locationValue-1)]
@@ -354,6 +355,46 @@ class Cube {
       }
     }
     return accessedBlocks
+  }
+
+  rotateSide(actionLocation,actionId){
+    //Getting the faceNmb of the blocks which we are rotating
+    let faceNmb = this.getActionFaceNmb(actionLocation)
+    //Defining a default array to store a copy of all blocks accessed
+    let accessedBlocks = []
+    //Defining default variable to store the newBlockNmbs
+    let newBlockNmbs
+    //Seeing which of the two possible rotations need to be completed (depending on what action is made)
+    if ((actionId == "upR") || (actionId == "downL") || (actionId == "leftT") || (actionId == "rightB")){
+      console.log("Rotating")
+      newBlockNmbs = [7,4,1,8,5,2,9,6,3]
+    }
+    else{
+      console.log("Rotating")
+      newBlockNmbs = [3,6,9,2,5,8,1,4,7]
+    } 
+    //Getting the blocks and changing the blockNmbs, then resorting the blocks array
+    for (let i=0;i<=8;i++){
+      let currentBlock = this.blocks[faceNmb*9+i]
+      currentBlock.setBlockNmb(newBlockNmbs[i])
+      accessedBlocks.push(currentBlock)
+    }
+    for (let i=0;i<=8;i++){
+      this.blocks[faceNmb*9+newBlockNmbs[i]-1] = accessedBlocks[i]
+    }
+  }
+
+  getActionFaceNmb(actionLocation){
+    switch(actionLocation){
+      case "R" :
+        return this.faceNmbRight
+      case "L" :
+        return this.faceNmbLeft
+      case "T" : 
+        return this.faceNmbUp
+      case "B" : 
+        return this.faceNmbDown
+    }
   }
 
   //Translation the location where the user has selected to turn into a value, to be used later in calculations
