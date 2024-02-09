@@ -60,6 +60,7 @@ class Cube {
     let newBlock = new Block(pFaceNmb, pBlockNmb, pColor);
     this.incrementColorVariables(pColor);
     this.blocks.push(newBlock);
+    let test = this.blocks
   }
 
   displayCube() {
@@ -317,14 +318,15 @@ class Cube {
     }
     //Moving the faceNmbs of the blocks and getting all the blocks that have been accessed (and their indexes)
     let accessedBlocks = this.moveRows(actionDirection,locationValue,faceNmbs)
+    this.sortBlocks(accessedBlocks)
     //Rotating the side connected the location where the cube has been turned
     if (actionLocation != "M"){
       this.rotateSide(actionLocation,targetId)
     }
     //Function used to sort the blocks array to put the blocks to the new locations where they should be
-    this.sortBlocks(accessedBlocks)
     //Displaying the new cube that has been made
     this.displayCube()
+    console.log(this.blocks) 
   }
   
   moveRows(actionDirection,locationValue,faceNmbs){
@@ -349,7 +351,7 @@ class Cube {
           accessedBlocks.push([currentBlock,(currentFaceNmb-1)*9 + (locationValue+1+(j-1)*3) -1])
         }
         else if (actionDirection == "right" || actionDirection == "left"){
-          accessedBlocks.push([currentBlock,(currentFaceNmb-1)*9 + (j+3*locationValue-1)])
+          accessedBlocks.push([currentBlock,((currentFaceNmb-1)*9 + (j+3*locationValue-1))])
         }
         
       }
